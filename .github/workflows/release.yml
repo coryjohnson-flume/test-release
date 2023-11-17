@@ -1,0 +1,32 @@
+name: GitHub Tag and Release
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_GH }}
+
+      - name: Setup package.json
+        run: echo '{"name":"fluxus-test-automation"}' > package.json
+  
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: NPM Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GH }}
+        run: npx semantic-release
