@@ -19,7 +19,9 @@ jobs:
         run: echo '{"name":"fluxus-test-automation"}' > package.json
   
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install @semantic-release/github -D
 
       - name: Setup Node
         uses: actions/setup-node@v4
